@@ -1,0 +1,295 @@
+body {
+    font-family: 'Lato';
+    font-weight: 400;
+    margin: 0;
+    background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAQAAABuBnYAAAAAU0lEQVQIHQXBwRGDIBAAwO2/AMcCDHAcPjIRxjJ8Je1kl1uqUgphsWu6w0sIG6npLpcUBql4e/wsVRKabrkNTacIYbMrwsF06rqUhsnXVKVT+Hj+Ue4rPSONk4kAAAAASUVORK5CYII=);
+    background-color: #52565A;
+}
+
+.top-nav-bar {
+    position: fixed;
+    display: block;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000;
+}
+.footer {
+    padding-top: 5px;
+    margin-bottom: -3px;
+    position: fixed;
+    font-size: 11px;
+    display: block;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 22px;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1001;
+}
+.footer, .footer a:link, .footer a:visited {
+    text-align: center;
+    color: white;
+}
+.content {
+    display: block;
+    float: left;
+    margin-top: 40px;
+    padding-top: 4px;
+    padding-left: 4px;
+    margin-bottom: 26px;
+}
+a:link {
+    color:  white;
+}
+
+.grid-movie-info, .movie-profile-tile {
+    display: none;
+}
+
+.movie-tile {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    float: left;
+    border-radius: 8px;
+    width: 250px;
+    height: 360px;
+    cursor: pointer;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.movie-underlay, .actor-underlay {
+    -webkit-transition: all 0.6s ease;
+    -moz-transition: all 0.6s ease;
+    -o-transition: all 0.6s ease;
+    transition: all 0.6s ease;
+    display: block;
+    position: absolute;
+    top: -40px;
+    left: 0px;
+    background-color: rgba(0,0,0,0.55);
+    float: left;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    border-radius: 8px;
+}
+
+.movie-poster, .actor-photo {
+    display: inline;
+    background-size: 105%;
+    background-position: top center;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.movie-btns, .actor-btns {
+    opacity: 0;
+}
+
+.rt-btn, .rt-btn:link, .add-btn, .rt-btn:link, .rt-btn .rt-meter {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin-top: 4px;
+    margin-right: 6px;
+    font-weight: 900;
+    font-size: 32px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+.trailer-btn {
+    position: absolute;
+    text-align: center;
+    top: 45%;
+    width: 100%;
+    color: white;
+}
+
+.movie-info, .actor-info {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    color: white;
+    width: 100%;
+    height: 45px;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 8px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.movie-info .movie-title, .actor-info .actor-name {
+    position: absolute;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 18px;
+    left: 10px;
+    top: 4px;
+}
+.movie-info .movie-more {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 400;
+    right: 5px;
+    bottom: 5px;
+}
+
+.hover {
+    opacity: 0;
+}
+
+.onhover {
+    opacity: 1;
+}
+
+/* ACTOR TILE */
+
+.actor-tile {
+    position: relative;
+    overflow: hidden;
+    vertical-align: top;
+    display: block;
+    float: left;
+    border-radius: 8px;
+    width: 260px;
+    height: 260px;
+    cursor: pointer;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.actor-info .actor-twitter {
+    position: absolute;
+    font-size: 15px;
+    font-weight: 400;
+    left: 10px;
+    bottom: 6px;
+}
+
+/* MOVIE PROFILE */
+
+.movie-profile-tile {
+    position: relative;
+    display: inline-grid;
+    overflow: hidden;
+    border-radius: 8px;
+    width: 500px;
+    height: 800px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.movie-profile-poster {
+  display: inline;
+  border-radius: 8px;
+  background-size: 100%;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+}
+.movie-profile-details {
+  position: absolute;
+  display: block;
+  border-radius: 8px;
+  top: 0px;
+  left: 0px;
+  height: 200%;
+  text-align: center;
+  color: white;
+  background-color: rgba(0,0,0,0.7);
+}
+.movie-profile-title {
+  display: block;
+  font-size: 38px;
+  line-height: 38px;
+  font-weight: 900;
+  padding-top: 50px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.movie-profile-synopsis {
+  display:block;
+  margin-top: 25px;
+  margin-left: 45px;
+  margin-right: 45px;
+  font-size: 14px;
+}
+.movie-profile-tweets {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  color: white;
+}
+.tweet-list {
+  list-style-type: none;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.tweet-list li {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px solid rgba(200,200,200,0.2);
+}
+.tweet-left img {
+  background-size: 100%;
+  background-position: center;
+  width: 50px;
+  height: 50px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.tweet-left, .tweet-right {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  height: 50px;
+}
+.tweet-right {
+  width: 100%;
+  padding-left: 15px;
+}
+.user-tweet {
+  display: block;
+  padding-right: 50px;
+}
+.tweet-time {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 12px;
+}
+
+.blurred {
+    -webkit-filter: blur(5px);
+}
+.movie-mode {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+.youtube-player {
+    display: block;
+    padding-top: 130px;
+    margin: auto;
+    width: 800px;
+    height: 400px;
+}
+.icon-twitter {
+    display: block;
+    width: 39px;
+    height: 39px;
+    background-image: url(../img/twitter.png);
+}
