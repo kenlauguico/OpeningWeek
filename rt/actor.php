@@ -23,16 +23,19 @@
     $return = array();
     if ($_GET['q'] != '') {
         if (getActor($_GET['q'])) {
+            if ($actor->alt == null)
+                break;
             $url = $actor->src;
             $return['name'] = $actor->alt;
             $return['photo']['small'] = $url;
             $return['photo']['medium'] = str_replace('_tmb','_mob',$url);
             $return['photo']['large'] = str_replace('_tmb','_ori',$url);
+            $return['url'] = "http://www.rottentomatoes.com".$actor->parent->href;
+            echo json_encode($return);
         } else {
             $return['success'] = FALSE;
             $return['error'] = TRUE;
         }
-        echo json_encode($return);
     }
 
 ?>

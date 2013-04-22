@@ -32,12 +32,12 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title></title>
+        <title>#openingweek | by Ken Lauguico</title>
         <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <div class="top-nav-bar"><div style="margin: auto; font-size: 30px; font-weight: 900; color: white; text-align: center;">#openingweek</div>
+        <div class="top-nav-bar"><span class="nav-back">back</span><div style="margin: auto; font-size: 30px; font-weight: 900; color: white; text-align: center;">#openingweek</div>
         </div>
         <div class="content">
         <div class="grid-movie">
@@ -62,12 +62,12 @@
                     $RTscore = 0;
 
                 echo <<<MOVIE_TILE
-<div class="movie-tile" data-movie-title="{$movieName}">
+<div class="movie-tile animate" data-movie-title="{$movieName}">
             <a class="movie-underlay hover"></a>
             <img class="movie-poster" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=" data-fallback="{$moviePosterURL}">
-            <div class="movie-btns">
+            <div class="movie-btns hover">
                 <a href="{$movie['links']['alternate']}" class="rt-btn"><label class="rt-meter">{$RTscore}%</label></a>
-                <a class="trailer-btn"><i class="icon-play">Play Trailer</i></a>
+                <a class="trailer-btn"><i class="icon-play"></i></a>
             </div>
             <a class="movie-info">
                 <span class="movie-title">{$movieName}</span>

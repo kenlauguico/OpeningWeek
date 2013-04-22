@@ -34,6 +34,9 @@
             $return['photo']['small'] = $tw_photo;
             $return['photo']['medium'] = str_replace('_normal','_bigger',$tw_photo);
             $return['photo']['orig'] = str_replace('_normal','',$tw_photo);
+            $return['id'] = $_GET['id'];
+            header('Content-Type: application/json; charset=UTF-8', true);
+            echo json_encode($return);
         }
     } elseif ($_GET['verify'] == 0) {
         twitterVerified($_GET['q']); // just to load
@@ -43,14 +46,16 @@
         $return['photo']['small'] = $tw_photo;
         $return['photo']['medium'] = str_replace('_normal','_bigger',$tw_photo);
         $return['photo']['orig'] = str_replace('_normal','',$tw_photo);
+        $return['id'] = $_GET['id'];
+        header('Content-Type: application/json; charset=UTF-8', true);
+        echo json_encode($return);
     } else {
         $return['name'] = urldecode($_GET['q']);
         $return['success'] = FALSE;
         $return['error'] = TRUE;
+        header('Content-Type: application/json; charset=UTF-8', true);
+        echo json_encode($return);
     }
-
-    header('Content-Type: application/json; charset=UTF-8', true);
-    echo json_encode($return);
       
     /*
     foreach ($mv as $movie) {
