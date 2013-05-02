@@ -31,6 +31,7 @@
             $return['photo']['medium'] = str_replace('_tmb','_mob',$url);
             $return['photo']['large'] = str_replace('_tmb','_ori',$url);
             $return['url'] = "http://www.rottentomatoes.com".$actor->parent->href;
+            $return['id'] = $_GET['id'];
             echo json_encode($return);
         } else {
             $return['success'] = FALSE;

@@ -20,6 +20,7 @@
         $search_results = json_decode($data, true);
         if ($search_results === NULL) die('Error parsing json');
     }
+    $month_names = array("January","February","March","April","May","June","July","August","September","October","November","December");
 
     $return = array();
 
@@ -31,7 +32,24 @@
         $return['synopsis'] = $movie["synopsis"];
         $return['poster']['medium'] = $movie["posters"]["detailed"];
         $return['poster']['big'] = $movie["posters"]["original"];
-        $return['meter'] = $movie["ratings"]["audience_score"];
+        $return['meter'] = $movie["ratings"]["critics_score"];
+        if ($return['meter'] <= 0)
+            $return['meter'] = '';
+        else
+            $return['meter'] = $return['meter'].'%';
+        $return['url'] = $movie["links"]["alternate"];
+        $return['cast'] = array();
+
+        $releaseDate = split('-', $return['release']);
+        $releaseMonth = $month_names[intval($releaseDate[1])-1];
+        $releaseDay = intval($releaseDate[2]);
+        $releaseYear = $releaseDate[0];
+        $return['release'] = "$releaseMonth $releaseDay, $releaseYear";
+
+        foreach($movie["abridged_cast"] as $actor) {
+            array_push($return['cast'],str_replace('\'','',$actor["name"]));
+        }
+        $return['cast'] = json_encode($return['cast']);
 		
 		header('Content-Type: application/json; charset=UTF-8', true);
         echo json_encode($return);

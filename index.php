@@ -26,18 +26,30 @@
         public $synopsis = "";
         public $cast = array();
         public $poster = "";
+        public $rtscore = "";
+        public $url = "";
     }
+
+    $month_names = array("January","February","March","April","May","June","July","August","September","October","November","December");
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>#openingweek | by Ken Lauguico</title>
+        <link rel="icon" href="http://kenlauguico.com/favicon.ico" type="image/x-icon"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
         <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <div class="top-nav-bar"><span class="nav-back">back</span><div style="margin: auto; font-size: 30px; font-weight: 900; color: white; text-align: center;">#openingweek</div>
+        <div class="top-nav-bar">
+            <span class="nav">
+                <span class="nav-back">back</span> 
+                <span class="nav-current-page">Opening this week</span>
+            </span>
+            <div class="nav-title">#openingweek</div>
+            <span class="nav-search-btn"><i class="icon-search"></i></span>
         </div>
         <div class="content">
         <div class="grid-movie">
@@ -47,8 +59,18 @@
             foreach($search_results["movies"] as $movie) {
                 $mv[$i] = new Movie();
                 $mv[$i]->title = $movie["title"];
+                $mv[$i]->release = $movie["release_dates"]["theater"];
                 $mv[$i]->synopsis = $movie["synopsis"];
                 $mv[$i]->poster = $movie["posters"]["original"];
+                $mv[$i]->url = $movie['links']['alternate'];
+
+                $RTscore = $movie["ratings"]["critics_score"];
+                if ($RTscore < 0)
+                    $RTscore = '';
+                else
+                    $RTscore = $RTscore.'%';
+
+                $mv[$i]->rtscore = $RTscore;
                 foreach($movie["abridged_cast"] as $actor) {
                     $actor = $actor["name"];
                     array_push($mv[$i]->cast,$actor);
@@ -57,16 +79,14 @@
                 $synopsis = $movie["synopsis"];
                 $movieName = $movie["title"];
                 $moviePosterURL = $movie["posters"]["detailed"];
-                $RTscore = $movie["ratings"]["critics_score"];
-                if ($RTscore < 0)
-                    $RTscore = 0;
+
 
                 echo <<<MOVIE_TILE
 <div class="movie-tile animate" data-movie-title="{$movieName}">
             <a class="movie-underlay hover"></a>
             <img class="movie-poster" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=" data-fallback="{$moviePosterURL}">
             <div class="movie-btns hover">
-                <a href="{$movie['links']['alternate']}" class="rt-btn"><label class="rt-meter">{$RTscore}%</label></a>
+                <a href="{$movie['links']['alternate']}" class="rt-btn"><i class="icon-rt"></i><label class="rt-meter">{$RTscore}</label></a>
                 <a class="trailer-btn"><i class="icon-play"></i></a>
             </div>
             <a class="movie-info">
@@ -103,6 +123,16 @@ MOVIE_TILE;
                     $synopsis = $movie->synopsis;
                     $cast = json_encode($movie->cast);
                     $poster = $movie->poster;
+                    $url = $movie->url;
+                    $rtscore = $movie->rtscore;
+                    $release = $movie->release;
+
+                    $releaseDate = split('-', $release);
+                    $releaseMonth = $month_names[intval($releaseDate[1])-1];
+                    $releaseDay = intval($releaseDate[2]);
+                    $releaseYear = $releaseDate[0];
+                    $releaseDate = "$releaseMonth $releaseDay, $releaseYear";
+
                     echo <<<MOVIEINFO_TILE
 <div class="movie-profile-tile" data-movie-title="{$title}">
                 <img class="movie-profile-poster" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=" data-fallback="{$poster}">
@@ -110,6 +140,8 @@ MOVIE_TILE;
 MOVIEINFO_TILE;
                  echo "data-cast='$cast'>";
                  echo <<<MOVIEINFO_TILE
+<a href="{$url}" class="rt-btn"><i class="icon-rt"></i><label class="rt-meter">{$rtscore}</label></a>
+<span class="movie-release hover">{$releaseDate}</span>
 <span class="movie-profile-title">{$title}</span>
                     <span>Trailer</span>
                     <span class="movie-profile-synopsis">{$synopsis}</span>
@@ -130,7 +162,27 @@ MOVIEINFO_TILE;
         <div class="movie-mode">
             <iframe class="youtube-player" type="text/html" src="" frameborder="0" name="player"></iframe>
         </div>
+        <div class="search-mode">
+            <input type="text" class="search-input" placeholder="Type a movie title">
+        </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
         <script src="js/script.js" type="text/javascript"></script>
+        <!-- Start of StatCounter Code for Default Guide -->
+        <script type="text/javascript">
+        var sc_project=8894819; 
+        var sc_invisible=1; 
+        var sc_security="745f1b07"; 
+        var scJsHost = (("https:" == document.location.protocol) ?
+        "https://secure." : "http://www.");
+        document.write("<sc"+"ript type='text/javascript' src='" +
+        scJsHost+
+        "statcounter.com/counter/counter.js'></"+"script>");
+        </script>
+        <noscript><div class="statcounter"><a title="web analytics"
+        href="http://statcounter.com/" target="_blank"><img
+        class="statcounter"
+        src="http://c.statcounter.com/8894819/0/745f1b07/1/"
+        alt="web analytics"></a></div></noscript>
+        <!-- End of StatCounter Code for Default Guide -->
     </body>
 </html>

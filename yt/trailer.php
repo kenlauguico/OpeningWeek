@@ -1,6 +1,6 @@
 <?php
     function yt_getFirstVideo($q) { // function that grabs first YouTube URL with search query
-        $endpoint = 'http://gdata.youtube.com/feeds/api/videos?q=' . urldecode($q.' trailer') . '&orderby=relevance';
+        $endpoint = 'http://gdata.youtube.com/feeds/api/videos?q=' . urldecode($q.' official trailer') . '&orderby=relevance';
         $yt_search_results = simplexml_load_file($endpoint);
         $vidId = split('videos/',$yt_search_results->entry[0]->id);
         //return 'http://youtube.com/watch?v=' . $vidId[1];
