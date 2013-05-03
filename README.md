@@ -14,5 +14,5 @@ I've modified the Twitter API to give me the ability to search for names. Twitte
 # To-Do
 - Add the current week's Friday date.
 - Use a different API for obtaining higher resolution posters. Rotten Tomatoes API for posters doesn't have an inbetween size from medium to original.
-- RT logo would duplicate once in a while on casts.
+- Fix RT logo duplicates
 - Obtain a larger list of cast members to grab Twitter handles from.
