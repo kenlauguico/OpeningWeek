@@ -1,16 +1,26 @@
 month = Array("January","February","March","April","May","June","July","August","September","October","November","December");
-
+var nextWeek = Boolean;
 // on load
 $(function () {
+    nextWeek = (location.pathname.match('next_week') != null);
     $('.movie-poster[data-fallback]').each(function () {
         url = $(this).data('fallback');
         $(this).css('background-image', 'url(' + url + ')');
     });
     fixSizes();
-
-    var page = document.location.hash;
+    var page = document.location.hash.replace('#','');
     if (page != '')
-        searchAndGet(page.replace(/-/g,' '));
+        searchAndGet(page.replace(/-/g, ' '));
+    else
+        $('.nav-back').click();
+});
+
+window.addEventListener('hashchange', function () {
+    var page = document.location.hash.replace('#','');
+    if (page != '')
+        searchAndGet(page.replace(/-/g, ' '));
+    else
+        $('.nav-back').click();
 });
 
 // back button when outside of home page
@@ -22,10 +32,15 @@ $('.nav-back').click(function () {
     $('.trailer-mode').fadeOut();
     $('.search-mode').fadeOut();
     $('.grid-movie').delay(500).fadeIn();
-    $('.nav-current-page').html('Opening this week');
+    $('.nav-current-page').html('This week');
+    if (nextWeek)
+        $('.nav-current-page').html('Next week');
     $(this).fadeOut();
     document.location.hash = '';
-    document.title = '#openingweek | by Ken Lauguico';
+    if (nextWeek)
+        document.title = '#openingweek - Next Week | by Ken Lauguico';
+    else
+        document.title = '#openingweek | by Ken Lauguico';
 });
 
 // hover animation
@@ -136,7 +151,9 @@ $('.search-input').keypress(function (e) {
 
 // exit movie mode
 $('.movie-mode, .search-mode').click(function () {
-    $('.nav-current-page').html('Opening this week');
+    $('.nav-current-page').html('This week');
+    if (nextWeek)
+        $('.nav-current-page').html('Next week');
     $('.grid-movie').removeClass('blurred');
     $('.grid-movie-info').removeClass('blurred');
     $(this).fadeOut();
@@ -147,32 +164,36 @@ $('.movie-mode, .search-mode').click(function () {
 function searchAndGet(movie) {
     $('.movie-profile-tile').hide();
     $('.actor-tile').remove();
-    $.getJSON("rt", { q: movie.replace('& ', '') })
-    .done(function (data) {
-        if (data != '') {
+    if ($('.movie-profile-tile[data-movie-title="' + movie + '"]').length === 0) {
+        $.getJSON("rt", { q: movie.replace('& ', '') })
+        .done(function (data) {
+            if (data != '') {
 
-            $('.movie-profile-title[data-movie-title="' + data.title + '"]').remove(); // remove if already exists
-            var movietile = '<div class="movie-profile-tile" data-movie-title="' + data.title + '"><img class="movie-profile-poster" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=" data-fallback="' + data.poster.big + '" style="background-image: url(' + data.poster.big + ')"><div class="movie-profile-details" data-cast=\'' + data.cast + '\'><a href="' + data.url + '" class="rt-btn"><i class="icon-rt"></i><label class="rt-meter">' + data.meter + '</label></a><span class="movie-release hover">'+ data.release +'</span><span class="movie-profile-title">' + data.title + '</span><span class="trailer-label">Trailer</span><span class="movie-profile-synopsis">' + data.synopsis + '</span></div><div class="movie-profile-tweets"><ul class="tweet-list"></ul></div></div>';
-            $('.grid-movie-info .grid-left').append(movietile);
+                $('.movie-profile-tile[data-movie-title="' + data.title + '"]').remove(); // remove if already exists
+                var movietile = '<div class="movie-profile-tile" data-movie-title="' + data.title + '"><img class="movie-profile-poster" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=" data-fallback="' + data.poster.big + '" style="background-image: url(' + data.poster.big + ')"><div class="movie-profile-details" data-cast=\'' + data.cast + '\'><a href="' + data.url + '" class="rt-btn"><i class="icon-rt"></i><label class="rt-meter">' + data.meter + '</label></a><span class="movie-release hover">'+ data.release +'</span><span class="movie-profile-title">' + data.title + '</span><span class="trailer-label">Trailer</span><span class="movie-profile-synopsis">' + data.synopsis + '</span></div><div class="movie-profile-tweets"><ul class="tweet-list"></ul></div></div>';
+                $('.grid-movie-info .grid-left').append(movietile);
 
-            getSocial(data.title);
+                getSocial(data.title);
 
-            $('.nav-current-page').html(data.title);
-            $('.search-mode').fadeOut();
-            $('.grid-movie').fadeOut();
-            $('.grid-movie').removeClass('blurred');
-            $('.grid-movie-info').removeClass('blurred');
-            $('.grid-movie-info').delay(500).fadeIn();
-            $('.movie-profile-tile[data-movie-title="' + data.title + '"]').delay(800).fadeIn();
-            $('.nav-back').fadeIn();
-        }
-    });
+                $('.nav-current-page').html(data.title);
+                $('.search-mode').fadeOut();
+                $('.grid-movie').fadeOut();
+                $('.grid-movie').removeClass('blurred');
+                $('.grid-movie-info').removeClass('blurred');
+                $('.grid-movie-info').delay(500).fadeIn();
+                $('.movie-profile-tile[data-movie-title="' + data.title + '"]').delay(800).fadeIn();
+                $('.nav-back').fadeIn();
+            }
+        });
+    } else {
+        $('.movie-tile[data-movie-title="' + movie + '"] a.movie-info').click();
+    }
 }
 
 function getSocial(m) {
     // update page before anything else
     document.location.hash = m.replace(/[^a-zA-Z0-9]/g,'-').replace(/-+/g,'-');
-    document.title = '#openingweek | ' + m;
+    document.title = m + ' | #openingweek';
 
     // empty out tweets before getting new ones
     $('.movie-profile-tile[data-movie-title="' + m + '"] .tweet-list').empty();
@@ -193,11 +214,12 @@ function getSocial(m) {
     for (i in cast) { // if twitter accounts are verified
         $.getJSON("t/users.php", { q: cast[i], verify: 1, id: i })
             .done(function (data) {
+                $('.actor-tile[data-actor-name="' + data.name + '"]').remove();
                 var actortile = '<div class="actor-tile animate" data-actor-name="' + data.name + '" data-id="' + data.id + '"><a href="' + data.url + '" class="actor-underlay hover"></a><img class="actor-photo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=" data-fallback="" style="background-image: url(' + data.photo.orig + ');"><div class="actor-btns hover"><div class="add-btn"><a href="' + data.url + '"><i class="icon-twitter"></i></a></div></div><a class="actor-info"><span class="actor-name">' + data.name + '</span><span class="actor-twitter hover">@' + data.username + '</span></a></div>';
                 $('.grid-movie-info .grid-right').append(actortile);
                 fixSizes();
             })
-            .error(function() {
+            .error(function () {
                 if (t) clearTimeout(t);
                 t = setTimeout(function () { remainingCast() }, 500);
             });
@@ -213,10 +235,12 @@ function getSocial(m) {
             $.getJSON("rt/actor.php", { q: remainingIds[i], id: i })
             .done(function (data) {
                 var actortile = '<div class="actor-tile animate" data-actor-name="' + data.name + '" data-id="' + data.id + '"><a href="' + data.url + '" class="actor-underlay hover"></a><img class="actor-photo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=" data-fallback="" style="background-image: url(' + data.photo.large + ');"><div class="actor-btns hover"><div class="add-btn"><a href="' + data.url + '"><i class="icon-rt"></i></a></div></div><a class="actor-info"><span class="actor-name">' + data.name + '</span></a></div>';
-                if ($('.actor-tile[data-id="'+data.id+'"]').length > 0)
-                    $('.actor-tile[data-id="'+data.id+'"] .add-btn').append('<a href="' + data.url + '"><i class="icon-rt"></i></a>');
-                else
+                if ($('.actor-tile[data-id="' + data.id + '"]').length > 0) {
+                    $('.actor-tile[data-id="' + data.id + '"] .icon-rt').remove();
+                    $('.actor-tile[data-id="' + data.id + '"] .add-btn').append('<a href="' + data.url + '"><i class="icon-rt"></i></a>');
+                } else {
                     $('.grid-movie-info .grid-right').append(actortile);
+                }
                 fixSizes();
             });
         }
@@ -246,4 +270,8 @@ function atUrl(str) { // converts @usernames to clickable urls
     return str.replace(/@((\w+))/gim, "@<a href='http://twitter.com/$1'>$1</a>");
 }
 
-
+$(document).on('keypress', function (e) {
+    if (!$('.search-mode').is(":visible")) {
+        $('.nav-search-btn').click();
+    }   
+});

@@ -2,7 +2,7 @@
     $apikey = 'raha5wksgk9fwzcquyaguvc3';
     {   // Rotten Tomatoes API
         // construct the query with our apikey and the query we want to make
-        $endpoint = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/opening.json?apikey=' . $apikey . '&limit=12';
+        $endpoint = 'http://api.rottentomatoes.com/api/public/v1.0/lists/movies/upcoming.json?apikey=' . $apikey . '&limit=12';
         
         // setup curl to make a call to the endpoint
         $session = curl_init($endpoint);
@@ -36,7 +36,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>#openingweek | by Ken Lauguico</title>
+        <title>#openingweek - Next Week | by Ken Lauguico</title>
         <link rel="icon" href="http://kenlauguico.com/favicon.ico" type="image/x-icon"/>
         <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
         <link href='http://fonts.googleapis.com/css?family=Lato:400,900' rel='stylesheet' type='text/css'>
@@ -46,8 +46,8 @@
         <div class="top-nav-bar">
             <span class="nav">
                 <span class="nav-back">back</span> 
-                <span class="nav-current-page">This week</span>
-                <span class="nav-next-week"><a href="next_week.php">Next week</a></span>
+                <span class="nav-current-page">Next week</span>
+                <span class="nav-this-week"><a href="/">This week</a></span>
             </span>
             <div class="nav-title">#openingweek</div>
             <span class="nav-search-btn"><i class="icon-search"></i></span>
