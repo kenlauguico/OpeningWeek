@@ -12,7 +12,7 @@ The Rotten Tomatoes API is used to grab information about the opening movies, th
 I've modified the Twitter API to give me the ability to search for names. Twitter is also used to fetch the latest Tweets related to the movie.
 
 # To-Do
-- Add the current week's Friday date.
+- [x] Add the current week's Friday date.
 - Use a different API for obtaining higher resolution posters. Rotten Tomatoes API for posters doesn't have an inbetween size from medium to original.
-- RT logo would duplicate once in a while on casts.
+- [x] RT logo would duplicate once in a while on casts.
 - Obtain a larger list of cast members to grab Twitter handles from.
