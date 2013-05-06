@@ -64,18 +64,22 @@ $(document).on('mouseleave','.movie-profile-details', function () {
 
 
 $(window).resize(function () {
-    fixSizes();
+    setTimeout(function () {
+        fixSizes();
+    }, 600);
 });
 
 // responsive algorithm
 function fixSizes() {
-    if ($(window).width() < 700) {
+    if ($(window).width() < 500) {
+        $('.movie-profile-tile').css({ width: ($(window).width()-8)+"px" });
+    } else if ($(window).width() < 700) {
         movieCols = 2;
-        actorCols = 1;
+        actorCols = 2;
         actSize = ($(window).width()/actorCols)-8;
     } else if ($(window).width() < 900) {
         movieCols = 3;
-        actorCols = 1;
+        actorCols = 2;
         actSize = (($(window).width()-500)/actorCols)-9;
     } else if ($(window).width() < 1100) {
         movieCols = 4;
@@ -85,10 +89,13 @@ function fixSizes() {
         movieCols = 6;
         actorCols = 4;
         actSize = (($(window).width()-500)/actorCols)-8;
-    }
+    } 
+
+    if ($(window).width() >= 496)
+        $('.movie-profile-tile').css({ width: "500px" });
 
     // update movie tile size
-    movWidth = ($(window).width()/movieCols)-8;
+    movWidth = ($(window).width()/movieCols)-6;
     movHeight = (movWidth)*1.456;
     $('.movie-tile').css({
         width: Math.round(movWidth)+"px",
@@ -195,11 +202,11 @@ function getSocial(m) {
     document.location.hash = m.replace(/[^a-zA-Z0-9]/g,'-').replace(/-+/g,'-');
     document.title = m + ' | #openingweek';
 
-    // empty out tweets before getting new ones
-    $('.movie-profile-tile[data-movie-title="' + m + '"] .tweet-list').empty();
     $.getJSON("t/movie.php", { q: m.replace('& ', '') })
     .done(function (data) {
         if (data != '') {
+            // empty out tweets before appending new ones
+            $('.movie-profile-tile[data-movie-title="' + m + '"] .tweet-list').empty();
             for (i in data) {
                 var tweet = hashUrl(atUrl(makeUrl(data[i].text)));
                 var tweetli = '<li><div class="tweet-left"><a href="http://twitter.com/' + data[i].user + '"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAFElEQVR4XgXAAQ0AAABAMP1L30IDCPwC/o5WcS4AAAAASUVORK5CYII=" style="background-image: url(' + data[i].photo + ');"></a></div><div class="tweet-right"><span class="user-tweet">' + tweet + '</span><span class="tweet-time">just now</span></div></li>';
@@ -270,6 +277,7 @@ function atUrl(str) { // converts @usernames to clickable urls
     return str.replace(/@((\w+))/gim, "@<a href='http://twitter.com/$1'>$1</a>");
 }
 
+// search anywhere
 $(document).on('keypress', function (e) {
     if (!$('.search-mode').is(":visible")) {
         $('.nav-search-btn').click();

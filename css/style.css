@@ -281,6 +281,7 @@ a:link, a:visited {
   margin-right: 45px;
   font-size: 14px;
   max-height: 392px;
+  overflow: hidden;
 }
 .movie-profile-tweets {
   position: absolute;
